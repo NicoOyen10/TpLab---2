@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración de Videojuegos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <div>
+      <h1>Administración De Videojuegos</h1>
+      <div>
+        <h2>Nuevo Videojuego</h2>
+        <form @submit.prevent="submitForm">
+          <div>
+            <label>Nombre:</label>
+            <input v-model="title" type="text"/>
+          </div>
+          <div>
+            <label>Plataforma:</label>
+            <select v-model="platform">
+              <option disabled value="">Seleccionar</option>
+              <option>PC</option>
+              <option>PlayStation</option>
+              <option>Xbox</option>
+            </select>
+          </div>
+          <div>
+            <label>Estado:</label>
+            <select v-model="status">
+              <option disabled value="">Seleccionar</option>
+              <option>Completado</option>
+              <option>Jugando</option>
+              <option>Pendiente</option>
+            </select>
+          </div>
+          <div>
+            <label>Puntaje:</label>
+            <input v-model="score" type="number"/>
+          </div>
+          <button type="submit">Registrar Videojuego</button>
+        </form>
+        <div v-if="error" class="error">{{ error }}</div>
+      </div>
+      
+      <div>
+        <h2>Lista de Videojuegos</h2>
+        <div>
+          <label>Nombre:</label>
+          <input v-model="filters.title"/>
+          <label>Plataforma:</label>
+          <select v-model="filters.platform">
+            <option value="">Todas</option>
+            <option>PC</option>
+            <option>PlayStation</option>
+            <option>Xbox</option>
+          
+          </select>
+          <label>Estado:</label>
+          <select v-model="filters.status">
+            <option value="">Todos</option>
+            <option>Completado</option>
+            <option>Jugando</option>
+            <option>Pendiente</option>
+          </select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Plataforma</th>
+              <th>Estado</th>
+              <th>Puntaje</th>
+              <th>Más info</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="game in filteredGames" :key="game.title">
+              <td>{{ game.title }}</td>
+              <td>{{ game.platform }}</td>
+              <td>{{ game.status }}</td>
+              <td>{{ game.score }}</td>
+              <td><button @click="viewDetails(game)">Ver Detalles</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="Detalles" v-if="selectedGame">
+        <h2>Detalles del Videojuego</h2>
+        <p><strong>Nombre:</strong> {{ selectedGame.title }}</p>
+        <p><strong>Plataforma:</strong> {{ selectedGame.platform }}</p>
+        <p><strong>Estado:</strong> {{ selectedGame.status }}</p>
+        <p><strong>Puntaje:</strong> {{ selectedGame.score }}</p>
+        <button @click="closeDetails">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="Vue.js"></script>
+</body>
+</html>
